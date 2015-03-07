@@ -29,7 +29,7 @@
           </argument>
           <argument>
             <kind>0</kind>
-            <string>room_speed * 2</string>
+            <string>room_speed * 3</string>
           </argument>
         </arguments>
       </action>

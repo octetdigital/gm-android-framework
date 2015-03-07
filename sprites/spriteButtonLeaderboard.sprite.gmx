@@ -20,9 +20,6 @@
   <width>132</width>
   <height>100</height>
   <frames>
-    <frame index="0">images\sprButtonTwitter_0.png</frame>
-    <frame index="1">images\sprButtonTwitter_1.png</frame>
-    <frame index="2">images\sprButtonTwitter_2.png</frame>
-    <frame index="3">images\sprButtonTwitter_3.png</frame>
+    <frame index="0">images\spriteButtonLeaderboard_0.png</frame>
   </frames>
 </sprite>

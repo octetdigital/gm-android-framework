@@ -25,35 +25,22 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///SETUP SCREEN
+            <string>///GLOBALS
 
+global.inGame = false;
 
+//IN GAME POPUP MESSAGES
+global.async_exit = undefined;
+global.async_quit = undefined;
 
-switch(os_type) {
-    case os_windows:
-    case os_macosx:
-    case os_linux:
-    case os_win8native:
-    if(surface_get_width(application_surface)  != window_get_width() || 
-       surface_get_height(application_surface) != window_get_height()) {
-        //scr_Resize();
-    }
-break;
-    case os_ios:
-    case os_android:
-    case os_winphone:
-    case os_tizen:
-    if(surface_get_width(application_surface)  != display_get_width() || 
-       surface_get_height(application_surface) != display_get_height()) {
-        //scr_Resize();
-    }
-    break;
-}
+//SOCIAL
+global.player_name = undefined;
+global.player_id   = undefined;
 
-draw_enable_alphablend(false);
-draw_set_alpha_test(true);
-draw_set_alpha_test_ref_value(128);
-application_surface_draw_enable(false);
+//DISPLAY
+global.screen_h = room_height;
+global.screen_w = room_width;
+global.aspect_r = room_width / room_height;
 </string>
           </argument>
         </arguments>
@@ -98,13 +85,52 @@ draw_set_font(_font);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///GLOBALS
+            <string>///SETUP SCREEN
 
-global.inGame = false;
+//APPLICATION SURFACE 
+switch(os_type) {
+    case os_windows:
+    case os_macosx:
+    case os_linux:
+    case os_win8native:
+    if(surface_get_width(application_surface)  != window_get_width() || 
+       surface_get_height(application_surface) != window_get_height()) {
+       global.screen_w = window_get_width();
+       global.screen_h = window_get_height();
+    }
+break;
+    case os_ios:
+    case os_android:
+    case os_winphone:
+    case os_tizen:
+    if(surface_get_width(application_surface)  != display_get_width() || 
+       surface_get_height(application_surface) != display_get_height()) {
+       global.screen_w = display_get_width();
+       global.screen_h = display_get_height();
+    }
+    break;
+}
 
-//IN GAME POPUP MESSAGES
-global.async_exit = undefined;
-global.async_quit = undefined;
+//GUI CALCULATIONS
+global.aspect_r = global.screen_w / global.screen_h;
+var _ww = 0;
+var _hh = 0;
+if(global.aspect_r &gt; 1) {
+    //LANDSCAPE
+    _ww = room_width * global.aspect_r;
+    _hh = room_height;
+} else {
+    //PORTRAIT
+    _ww = room_width;
+    _hh = room_height / global.aspect_r;
+}
+display_set_gui_maximise(floor(global.screen_w / _ww), floor(global.screen_h / _hh), 0, 0);
+
+//OPTIMIZATION
+draw_enable_alphablend(false);
+draw_set_alpha_test(true);
+draw_set_alpha_test_ref_value(128);
+application_surface_draw_enable(false);
 </string>
           </argument>
         </arguments>
@@ -140,6 +166,42 @@ if(_bck &amp;&amp; !global.inGame) {
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="70">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///GOOGLE PLAY
+
+var _id  = ds_map_find_value(async_load, "id");
+
+if(_id == achievement_our_info) {
+    global.player_name = ds_map_find_value(async_load, "name");
+    global.player_id   = ds_map_find_value(async_load, "playerid");
+
+    if(os_type == os_android) {
+        achievement_load_leaderboard("CgkI0fz48IgCEAIQCA", 1, 10, achievement_filter_friends_only);
+    } else {
+            
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="63">
       <action>
         <libid>1</libid>
@@ -160,9 +222,9 @@ if(_bck &amp;&amp; !global.inGame) {
             <string>///QUIT THE GAME?
 
 var _msg_id = ds_map_find_value(async_load, "id");
-var _answer = ds_map_find_value(async_load, "status");
 
-if(global.async_exit == _msg_id) {
+if(_msg_id == global.async_exit) {
+var _answer = ds_map_find_value(async_load, "status");
     if(_answer) {
         game_end();
     }
@@ -193,7 +255,7 @@ if(global.async_exit == _msg_id) {
 
 texture_set_interpolation(false);
 draw_set_alpha_test(false);
-draw_surface_stretched(application_surface, 0, 0, room_width, room_height);
+draw_surface_stretched(application_surface, 0, 0, global.screen_w, global.screen_h);
 draw_set_alpha_test(true);
 texture_set_interpolation(true);
 </string>
@@ -220,6 +282,28 @@ texture_set_interpolation(true);
 
 draw_text(0, 0, "SCORE: " + string(score));
 </string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>DO NOTHING</string>
           </argument>
         </arguments>
       </action>

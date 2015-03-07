@@ -7,36 +7,45 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprASCII</sprite>
-    <sprite>sprites\sprButtonFB</sprite>
-    <sprite>sprites\sprButtonTwitter</sprite>
-    <sprite>sprites\sprButtonWorld</sprite>
-    <sprite>sprites\sprButtonTrophy</sprite>
     <sprite>sprites\sprControl</sprite>
     <sprite>sprites\sprSplashScreen</sprite>
     <sprite>sprites\sprTitle</sprite>
+    <sprites name="Buttons">
+      <sprite>sprites\sprButtonTwitter</sprite>
+      <sprite>sprites\sprButtonFB</sprite>
+      <sprite>sprites\sprButtonWorld</sprite>
+      <sprite>sprites\sprButtonTrophy</sprite>
+      <sprite>sprites\spriteButtonLeaderboard</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\ButtonStateMachine.gml</script>
-    <script>scripts\EaseInOutQuad.gml</script>
-    <script>scripts\EaseInQuad.gml</script>
-    <script>scripts\EaseLinear.gml</script>
-    <script>scripts\EaseOutQuad.gml</script>
+    <scripts name="Math">
+      <script>scripts\EaseLinear.gml</script>
+      <script>scripts\EaseOutQuad.gml</script>
+      <script>scripts\EaseInQuad.gml</script>
+      <script>scripts\EaseInOutQuad.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
-    <object>objects\objButton</object>
-    <object>objects\objButtonAchievements</object>
-    <object>objects\objButtonFB</object>
-    <object>objects\objButtonTwitter</object>
-    <object>objects\objButtonWorld</object>
-    <object>objects\objGameControl</object>
     <object>objects\objSplashScreen</object>
     <object>objects\objTilte</object>
+    <objects name="Control">
+      <object>objects\objGameControl</object>
+    </objects>
+    <objects name="Buttons">
+      <object>objects\objButton</object>
+      <object>objects\objButtonFB</object>
+      <object>objects\objButtonTwitter</object>
+      <object>objects\objButtonWorld</object>
+      <object>objects\objButtonAchievements</object>
+      <object>objects\objButtonLeaderboard</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rmMain</room>
-    <room>rooms\rmSplash</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
