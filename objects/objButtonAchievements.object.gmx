@@ -32,7 +32,7 @@ if !achievement_login_status()
     achievement_login();
 } else {
     if(achievement_available()) {
-        achievement_show_leaderboards();
+        achievement_show_achievements();
     }
 }
 </string>
